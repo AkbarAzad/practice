@@ -1,0 +1,59 @@
+install.packages("openxlsx",repos="http://cran.us.r-project.org")
+library(xlsx)
+library(openxlsx)
+
+#initialise datasets
+test <- 1:30
+test2 <- 31:60
+test3 <- 61:90
+test4 <- 91:120
+
+
+#create a blank workbook, i.e. in xlsx format.
+OUT <- createWorkbook()
+
+#add empty worksheets to the created blank workbook.
+addWorksheet(OUT,"Sheet 1 Name")
+addWorksheet(OUT,"Sheet 2 Name")
+addWorksheet(OUT,"Sheet 3 Name")
+
+#write datasets into workbook into speci
+writeData(OUT, sheet="Sheet 1 Name", x=test)
+writeData(OUT, sheet="Sheet 2 Name", x=test2)
+
+worksheetOrder(OUT) <- c(2,1)
+
+saveWorkbook(OUT, "C:\\Users\\P1318124\\Downloads\\My output file.xlsx")
+
+writeData(OUT, sheet="Sheet 3 Name", x=test3)
+
+saveWorkbook(OUT, "C:\\Users\\P1318124\\Downloads\\My output file.xlsx",
+overwrite=T)
+
+OUT <- loadWorkbook("C:\\Users\\P1318124\\Downloads\\My output file.xlsx")
+
+writeData(OUT,sheet="Sheet 1 Name", x=test4)
+
+saveWorkbook(OUT, "C:\\Users\\P1318124\\Downloads\\My output file.xlsx",
+overwrite=T)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
