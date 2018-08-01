@@ -1,0 +1,42 @@
+library(tidyverse)
+
+dt <- read.csv("C:\\Users\\P1318124\\Downloads\\New_Template_Remit_Nationality_R.csv")
+
+glimpse(dt)
+
+dt %>%
+group_by(DESTINATION_COUNTRY) %>%
+count() %>%
+arrange(desc(n))
+
+dt %>% 
+filter(DESTINATION_COUNTRY=="PHILIPPINES") %>%
+group_by(BRAND_NAME) %>%
+summarise(
+AvgBase = mean(REMITTED_AMOUNT_SGD),
+MedianBase = median(REMITTED_AMOUNT_SGD),
+TotalBase = sum(REMITTED_AMOUNT_SGD)
+)
+
+dt %>%
+filter(DESTINATION_COUNTRY=="PHILIPPINES") %>%
+group_by(BRAND_NAME) %>%
+summarise_if(is.numeric,mean)
+
+dt %>%
+filter(DESTINATION_COUNTRY=="PHILIPPINES") %>%
+group_by(BRAND_NAME, TRANSACTION.DATE.2) %>%
+summarise(TotalBase=sum(REMITTED_AMOUNT_SGD))
+
+
+dt %>%
+filter(DESTINATION_COUNTRY=="PHILIPPINES") %>%
+group_by(BRAND_NAME, TRANSACTION.DATE.2) %>%
+summarise(TotalBase=sum(REMITTED_AMOUNT_SGD)) %>%
+spread(TRANSACTION.DATE.2, TotalBase)
+
+
+
+
+
+
