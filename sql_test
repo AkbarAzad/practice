@@ -1,0 +1,41 @@
+-- Basic query
+-- Useful to see the records/values in the table
+-- Important to use both LIMIT clause and WHERE clause to prevent high costs incurred (see "Bytes processed" under "JOB INFORMATION" below)
+-- Create table to save costs
+
+-- Hierarchy: Project.Dataset.Table
+
+CREATE TABLE test.chicago_crimes_v1
+AS
+SELECT *
+FROM bigquery-public-data.chicago_crime.crime
+WHERE EXTRACT(YEAR FROM date) = 2022;
+
+
+SELECT *
+FROM test.chicago_crimes_v1;
+
+-- How many crimes have been committed last month?
+SELECT COUNT(unique_key) AS number_of_crimes
+FROM test.chicago_crimes_v1
+WHERE EXTRACT(MONTH FROM date) = 5;
+
+SELECT COUNT(unique_key) AS number_of_crimes
+FROM test.chicago_crimes_v1
+WHERE EXTRACT(MONTH FROM date) = 4;
+
+-- How many crimes committed per month for the past 5 months?
+SELECT EXTRACT(MONTH FROM date) AS month_number, COUNT(unique_key) AS number_of_crimes
+FROM test.chicago_crimes_v1
+WHERE EXTRACT(MONTH FROM date) <= 5
+GROUP BY 1
+ORDER BY 1 ASC;
+
+-- Where are most crimes coming from last month?
+SELECT primary_type, COUNT(unique_key) AS number_of_crimes
+FROM test.chicago_crimes_v1
+WHERE EXTRACT(MONTH FROM date) = 5
+GROUP BY 1
+ORDER BY 2 DESC;
+
+-- Recommendation: Educate residents on the seriousness of theft, to be wary of surroundings, to look after belongings
